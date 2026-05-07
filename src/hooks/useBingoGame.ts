@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import type { BingoSquareData, BingoLine, GameState } from '../types';
+import type { BingoSquareData, BingoLine, GameState, GameTheme } from '../types';
 import {
   generateBoard,
   toggleSquare,
@@ -16,14 +16,16 @@ export interface BingoGameState {
 }
 
 export interface BingoGameActions {
-  startGame: () => void;
+  startGame: (theme?: GameTheme) => void;
   handleSquareClick: (squareId: number) => void;
   resetGame: () => void;
   dismissModal: () => void;
+  setTheme: (theme: GameTheme) => void;
 }
 
 const STORAGE_KEY = 'bingo-game-state';
 const STORAGE_VERSION = 1;
+const THEME_STORAGE_KEY = 'bingo-game-theme';
 
 interface StoredGameData {
   version: number;
@@ -137,8 +139,35 @@ function saveGameState(gameState: GameState, board: BingoSquareData[], winningLi
   }
 }
 
+function loadTheme(): GameTheme {
+  if (typeof window === 'undefined') {
+    return 'general';
+  }
+  try {
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === 'general' || saved === 'fandom') {
+      return saved;
+    }
+  } catch (error) {
+    console.warn('Failed to load theme:', error);
+  }
+  return 'general';
+}
+
+function saveTheme(theme: GameTheme): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch (error) {
+    console.warn('Failed to save theme:', error);
+  }
+}
+
 export function useBingoGame(): BingoGameState & BingoGameActions {
   const loadedState = useMemo(() => loadGameState(), []);
+  const loadedTheme = useMemo(() => loadTheme(), []);
 
   const [gameState, setGameState] = useState<GameState>(
     () => loadedState?.gameState || 'start'
@@ -150,6 +179,7 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     () => loadedState?.winningLine || null
   );
   const [showBingoModal, setShowBingoModal] = useState(false);
+  const [theme, setThemeState] = useState<GameTheme>(() => loadedTheme);
 
   const winningSquareIds = useMemo(
     () => getWinningSquareIds(winningLine),
@@ -161,11 +191,16 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     saveGameState(gameState, board, winningLine);
   }, [gameState, board, winningLine]);
 
-  const startGame = useCallback(() => {
-    setBoard(generateBoard());
+  const startGame = useCallback((selectedTheme?: GameTheme) => {
+    const themeToUse = selectedTheme || theme;
+    if (selectedTheme) {
+      setThemeState(selectedTheme);
+      saveTheme(selectedTheme);
+    }
+    setBoard(generateBoard(themeToUse));
     setWinningLine(null);
     setGameState('playing');
-  }, []);
+  }, [theme]);
 
   const handleSquareClick = useCallback((squareId: number) => {
     setBoard((currentBoard) => {
@@ -197,6 +232,11 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     setShowBingoModal(false);
   }, []);
 
+  const setTheme = useCallback((newTheme: GameTheme) => {
+    setThemeState(newTheme);
+    saveTheme(newTheme);
+  }, []);
+
   return {
     gameState,
     board,
@@ -207,5 +247,6 @@ export function useBingoGame(): BingoGameState & BingoGameActions {
     handleSquareClick,
     resetGame,
     dismissModal,
+    setTheme,
   };
 }

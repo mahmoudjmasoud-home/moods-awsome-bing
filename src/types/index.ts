@@ -14,3 +14,12 @@ export interface BingoLine {
 }
 
 export type GameState = 'start' | 'playing' | 'bingo';
+
+export type GameTheme = 'general' | 'fandom';
+
+export interface ThemeConfig {
+  id: GameTheme;
+  label: string;
+  description: string;
+  emoji: string;
+}

@@ -4,15 +4,15 @@ interface BingoModalProps {
 
 export function BingoModal({ onDismiss }: BingoModalProps) {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl p-6 max-w-xs w-full text-center shadow-xl animate-[bounce_0.5s_ease-out]">
-        <div className="text-5xl mb-4">🎉</div>
-        <h2 className="text-3xl font-bold text-amber-500 mb-2">BINGO!</h2>
-        <p className="text-gray-600 mb-6">You completed a line!</p>
-        
+    <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,_rgba(34,211,238,0.16),_rgba(15,23,42,0.94)_45%)] flex items-center justify-center p-4 z-50">
+      <div className="glass-card border-cyan-400/20 rounded-[36px] p-7 max-w-xs w-full text-center shadow-[0_30px_100px_rgba(34,211,238,0.18)] animate-pulse">
+        <div className="text-[3.25rem] leading-none mb-3 text-cyan-200">🎉</div>
+        <h2 className="text-4xl font-extrabold text-white mb-2 glow-text">BINGO!</h2>
+        <p className="text-sm text-slate-300 mb-6">You completed a neon line. Keep the energy going!</p>
+
         <button
           onClick={onDismiss}
-          className="w-full bg-accent text-white font-semibold py-3 px-6 rounded-lg active:bg-accent-light transition-colors"
+          className="w-full rounded-[24px] border border-cyan-400/40 bg-cyan-500/15 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/70 hover:bg-cyan-500/25"
         >
           Keep Playing
         </button>

@@ -16,7 +16,7 @@ function App() {
   } = useBingoGame();
 
   if (gameState === 'start') {
-    return <StartScreen onStart={startGame} />;
+    return <StartScreen onStart={(theme) => startGame(theme)} />;
   }
 
   return (

@@ -25,4 +25,32 @@ export const questions: string[] = [
   "knows sign language",
 ];
 
+export const fandomQuestions: string[] = [
+  "has a favorite fictional character",
+  "owns merchandise from a show, game, or book",
+  "has watched or read at least one Star Wars story",
+  "likes anime or manga",
+  "has a favorite superhero",
+  "plays video games (any kind)",
+  "has read a fantasy book series",
+  "can quote a famous movie or show line",
+  "has a comfort show they rewatch",
+  "knows what 'canon' or 'ship' means",
+  "follows a creator, actor, or author online",
+  "been to a comic shop or gaming store",
+  "can explain their favorite 'ship' (pairing) to someone",
+  "has spent embarrassing money on fandom stuff",
+  "attends or wants to attend a convention or fan event",
+  "prefers the book/game version over the movie/show (or vice versa)",
+  "has discussed fandom theories or plot predictions online",
+  "owns a fandom tattoo or wants one",
+  "can recite a favorite character without hesitation",
+  "has a 'Mount TBR' or backlog of unwatched content",
+  "believes one fictional universe is objectively superior",
+  "has been upset about a character's death in a show/book",
+  "has tried to convert someone to your fandom",
+  "created fan art, fiction, memes, or cosplay",
+  "rock-paper-scissors with someone and describe your favorite character to them",
+];
+
 export const FREE_SPACE = "FREE SPACE";
